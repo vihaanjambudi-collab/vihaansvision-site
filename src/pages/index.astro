@@ -1,17 +1,116 @@
----
-// Welcome to Astro! Everything between these triple-dash code fences
-// is your "component frontmatter". It never runs in the browser.
-console.log('This runs in your terminal, not the browser!');
----
-<!-- Below is your "component template." It's just HTML, but with
-    some magic sprinkled in to help you build great templates. -->
-<html>
-  <body>
-    <h1>Vihaan's Vision</h1>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vihaan's Vision</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="/" aria-label="Vihaan's Vision home">
+    <span class="logo-mark">☀️</span>
+    <span class="logo-copy">
+      <strong>Vihaan's Vision</strong>
+      <small>A world where every child smiles</small>
+    </span>
+  </a>
+  <nav>
+    <a href="/" style="color:#2f6f9f">Home</a><a href="/events/">Events</a><a href="/donate/">Donate</a><a href="/donation-events/">Donation Events</a><a href="/team/">Team</a><a href="/contact/">Contact Us</a>
+  </nav>
+</header>
+
+
+<main>
+  <section class="hero">
+    <div>
+      <span class="kicker">Tiny creations. Real joy.</span>
+      <h1>Small gifts.<br>Big smiles.</h1>
+      <p class="lead">
+        Hi, I’m Vihaan. I started this project because I believe every child deserves
+        a reason to smile. I make 3D-printed keychains, toys, and small gifts, and I also
+        teach AI classes for kids to help raise money for printing materials.
+      </p>
+      <div class="actions">
+        <a class="btn primary" href="/events/">AI Classes & Events</a>
+        <a class="btn gold" href="/donate/">Support My Mission</a>
+        <a class="btn light" href="/donation-events/">See Donation Events</a>
+      </div>
+    </div>
+
+    <div class="hero-art" aria-label="Smiling sun illustration">
+      <div class="orbit"></div>
+      <div class="hero-sun">😊</div>
+      <div class="floating-note note-1">AI classes</div>
+      <div class="floating-note note-2">3D gifts</div>
+      <div class="floating-note note-3">Smiles</div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">What I Do</h2>
+    <p class="section-intro">
+      I use creativity, technology, and kindness to turn small ideas into gifts for children.
+    </p>
+
+    <div class="grid-3">
+      <article class="card">
+        <div class="card-icon">🧠</div>
+        <h3>I Teach AI Classes</h3>
+        <p>
+          I teach beginner-friendly AI sessions for kids and use the money raised to support this project.
+        </p>
+      </article>
+
+      <article class="card">
+        <div class="card-icon">🖨️</div>
+        <h3>I Create 3D Gifts</h3>
+        <p>
+          I use donations to buy filament, supplies, packaging, and tools to make keychains, toys, and more.
+        </p>
+      </article>
+
+      <article class="card">
+        <div class="card-icon">🎁</div>
+        <h3>I Donate with Love</h3>
+        <p>
+          I want each gift to remind a child: you matter, you are loved, and your light is just beginning to rise.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section class="band">
+    <h2 class="section-title">My Vision</h2>
+    <div class="story-box">
+      <p>
+        I dream of a world where no child grows up without warmth, kindness, or a reason to smile.
+        Every gift I make has one job: to bring a smile.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">My Story</h2>
+    <div class="story-box">
+      <p>
+        My name, Vihaan, means “the first rays of the morning sun.”
+      </p>
+      <p>
+        When I thought about children who may not get to enjoy small moments — a toy on a birthday,
+        a book to read, or a simple celebration — I wanted to do something that could become
+        a little ray of light for them.
+      </p>
+      <p>
+        That is why I started this project: one gift, one child, one ray at a time.
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>☀️ One gift, one child, one ray at a time.</p>
+</footer>
+</body>
 </html>
-<style>
-  h1 {
-    color: orange;
-  }
-</style>
