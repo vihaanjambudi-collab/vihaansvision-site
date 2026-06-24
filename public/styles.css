@@ -372,6 +372,22 @@ section {
   border: 1px solid rgba(23, 50, 77, 0.08);
 }
 
+.success-message {
+  margin-bottom: 22px;
+  padding: 16px 18px;
+  border-radius: 20px;
+  background: #e5f7ef;
+  border: 2px solid rgba(122, 199, 165, 0.45);
+  color: var(--navy);
+  font-weight: 700;
+}
+
+.success-message strong {
+  display: block;
+  margin-bottom: 2px;
+  color: #236b4b;
+}
+
 .form-row {
   margin-bottom: 18px;
 }

@@ -37,7 +37,12 @@
       <input type="hidden" name="_subject" value="New message from Vihaan's Vision" />
       <input type="hidden" name="_template" value="table" />
       <input type="hidden" name="_captcha" value="false" />
-      <input type="hidden" name="_next" value="https://www.vihaansvision.org/contact/" />
+      <input type="hidden" name="_next" value="https://www.vihaansvision.org/contact/?sent=1" />
+
+      <div class="success-message" id="sent-message" hidden>
+        <strong>Message sent.</strong>
+        Thank you for reaching out. We will get back to you soon.
+      </div>
 
       <div class="form-row">
         <label for="name">Name</label>
@@ -67,5 +72,12 @@
 <footer>
   <p>☀️ A world where every child smiles — one gift, one child, one ray at a time.</p>
 </footer>
+<script>
+  const sentMessage = document.querySelector('#sent-message');
+
+  if (new URLSearchParams(window.location.search).get('sent') === '1') {
+    sentMessage?.removeAttribute('hidden');
+  }
+</script>
 </body>
 </html>
