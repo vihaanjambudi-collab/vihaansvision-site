@@ -33,15 +33,19 @@
   </section>
 
   <section>
-    <form class="form" action="https://formsubmit.co/vihaan.jambudi@gmail.com" method="POST">
+    <form class="form" id="contact-form" action="https://formsubmit.co/ajax/vihaan.jambudi@gmail.com" method="POST">
       <input type="hidden" name="_subject" value="New message from Vihaan's Vision" />
       <input type="hidden" name="_template" value="table" />
       <input type="hidden" name="_captcha" value="false" />
-      <input type="hidden" name="_next" value="https://www.vihaansvision.org/contact/?sent=1" />
 
-      <div class="success-message" id="sent-message" hidden>
+      <div class="success-message" id="sent-message" role="status" hidden>
         <strong>Message sent.</strong>
         Thank you for reaching out. We will get back to you soon.
+      </div>
+
+      <div class="success-message error" id="error-message" role="alert" hidden>
+        <strong>Message not sent.</strong>
+        Please try again or email vihaan.jambudi@gmail.com directly.
       </div>
 
       <div class="form-row">
@@ -73,11 +77,50 @@
   <p>☀️ A world where every child smiles — one gift, one child, one ray at a time.</p>
 </footer>
 <script>
+  const form = document.querySelector('#contact-form');
   const sentMessage = document.querySelector('#sent-message');
+  const errorMessage = document.querySelector('#error-message');
+  const submitButton = form?.querySelector('button[type="submit"]');
 
   if (new URLSearchParams(window.location.search).get('sent') === '1') {
     sentMessage?.removeAttribute('hidden');
   }
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    sentMessage?.setAttribute('hidden', '');
+    errorMessage?.setAttribute('hidden', '');
+
+    if (submitButton) {
+      submitButton.setAttribute('disabled', '');
+      submitButton.textContent = 'Sending...';
+    }
+
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: {
+          Accept: 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Form submission failed');
+      }
+
+      form.reset();
+      sentMessage?.removeAttribute('hidden');
+    } catch {
+      errorMessage?.removeAttribute('hidden');
+    } finally {
+      if (submitButton) {
+        submitButton.removeAttribute('disabled');
+        submitButton.textContent = 'Send Message';
+      }
+    }
+  });
 </script>
 </body>
 </html>

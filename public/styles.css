@@ -388,6 +388,15 @@ section {
   color: #236b4b;
 }
 
+.success-message.error {
+  background: #fff2ef;
+  border-color: rgba(255, 182, 163, 0.72);
+}
+
+.success-message.error strong {
+  color: #9d3d2f;
+}
+
 .form-row {
   margin-bottom: 18px;
 }
