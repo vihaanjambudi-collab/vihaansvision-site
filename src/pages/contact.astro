@@ -33,7 +33,7 @@
   </section>
 
   <section>
-    <form class="form" action="#" method="post">
+    <form class="form" id="contact-form">
       <div class="form-row">
         <label for="name">Name</label>
         <input id="name" name="name" type="text" placeholder="Your name" required />
@@ -57,5 +57,24 @@
 <footer>
   <p>☀️ A world where every child smiles — one gift, one child, one ray at a time.</p>
 </footer>
+<script>
+  const form = document.querySelector('#contact-form');
+
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const data = new FormData(form);
+    const name = data.get('name');
+    const subject = data.get('subject');
+    const info = data.get('info');
+    const body = [
+      `Name: ${name}`,
+      '',
+      `${info}`,
+    ].join('\n');
+
+    window.location.href = `mailto:vihaan.jambudi@gmail.com?subject=${encodeURIComponent(String(subject))}&body=${encodeURIComponent(body)}`;
+  });
+</script>
 </body>
 </html>
