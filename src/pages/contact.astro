@@ -33,10 +33,20 @@
   </section>
 
   <section>
-    <form class="form" id="contact-form">
+    <form class="form" action="https://formsubmit.co/vihaan.jambudi@gmail.com" method="POST">
+      <input type="hidden" name="_subject" value="New message from Vihaan's Vision" />
+      <input type="hidden" name="_template" value="table" />
+      <input type="hidden" name="_captcha" value="false" />
+      <input type="hidden" name="_next" value="https://www.vihaansvision.org/contact/" />
+
       <div class="form-row">
         <label for="name">Name</label>
         <input id="name" name="name" type="text" placeholder="Your name" required />
+      </div>
+
+      <div class="form-row">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="Your email" required />
       </div>
 
       <div class="form-row">
@@ -57,24 +67,5 @@
 <footer>
   <p>☀️ A world where every child smiles — one gift, one child, one ray at a time.</p>
 </footer>
-<script>
-  const form = document.querySelector('#contact-form');
-
-  form?.addEventListener('submit', (event) => {
-    event.preventDefault();
-
-    const data = new FormData(form);
-    const name = data.get('name');
-    const subject = data.get('subject');
-    const info = data.get('info');
-    const body = [
-      `Name: ${name}`,
-      '',
-      `${info}`,
-    ].join('\n');
-
-    window.location.href = `mailto:vihaan.jambudi@gmail.com?subject=${encodeURIComponent(String(subject))}&body=${encodeURIComponent(body)}`;
-  });
-</script>
 </body>
 </html>
