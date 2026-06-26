@@ -395,6 +395,24 @@ section {
   border: 2px solid #ffe3a8;
 }
 
+.class-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.class-title-row h3 {
+  margin-bottom: 0;
+}
+
+.class-title-row span {
+  color: var(--navy);
+  font-weight: 900;
+  white-space: nowrap;
+}
+
 .form {
   max-width: 780px;
   margin: 0 auto;
@@ -590,6 +608,16 @@ footer p {
 
   .timeline-item {
     grid-template-columns: 1fr;
+  }
+
+  .class-title-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .class-title-row span {
+    white-space: normal;
   }
 
   .hero-art {
