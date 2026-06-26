@@ -310,6 +310,17 @@ section {
   margin-bottom: 16px;
 }
 
+.numbered-list {
+  margin: 8px 0 0 1.35rem;
+  color: #4c5d6d;
+  font-size: 1.08rem;
+}
+
+.numbered-list li {
+  padding-left: 6px;
+  margin-bottom: 10px;
+}
+
 .band {
   background: rgba(255, 242, 207, 0.64);
 }
