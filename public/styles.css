@@ -310,6 +310,14 @@ section {
   margin-bottom: 16px;
 }
 
+.tax-box {
+  margin-top: 22px;
+}
+
+.tax-box p:last-child {
+  margin-bottom: 0;
+}
+
 .numbered-list {
   margin: 8px 0 0 1.35rem;
   color: #4c5d6d;
