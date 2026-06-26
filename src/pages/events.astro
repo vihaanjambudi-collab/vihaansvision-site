@@ -92,23 +92,15 @@
           </p>
 
           <div class="photo-grid" aria-label="Past AI class photos">
-            <div class="photo-placeholder">
-              <div>
-                <span>📸</span>
-                Class photo 1
-              </div>
-            </div>
-
-            <div class="photo-placeholder">
-              <div>
-                <span>🧠</span>
-                Class photo 2
-              </div>
-            </div>
+            <img
+              class="event-photo"
+              src="/ai-101-class-photo.jpg"
+              alt="Vihaan teaching an AI 101 class with students"
+            />
           </div>
 
           <p class="class-note">
-            Highlights from the AI 101 class will be added here.
+            Highlights from the AI 101 class.
           </p>
         </div>
       </article>
@@ -125,10 +117,7 @@
     <div class="grid-2">
       <article class="card price-card">
         <span class="badge future">Upcoming</span>
-        <div class="class-title-row">
-          <h3>AI 101: AI & ML Basics</h3>
-          <span>- July 1st, 2026 02:00 PM to 04:00 PM</span>
-        </div>
+        <h3>AI 101: AI & ML Basics</h3>
         <p><strong>Best for:</strong> Beginners / kids new to AI</p>
         <p><strong>Level:</strong> Introductory</p>
         <p><strong>Suggested donation:</strong> $15–$25</p>
@@ -158,23 +147,33 @@
       Share your interest in an upcoming AI class and we will follow up with session details.
     </p>
 
-    <form class="form" action="#" method="post">
+    <form class="form" id="ai-signup-form" action="https://script.google.com/macros/s/AKfycbwSZZQly4XEOcELde4Rdg9BBdkfyLLpVNVd-_uAwXlQNhtMVAkWFmMK2ezd0LMH9aU1HQ/exec" method="POST">
+      <div class="success-message" id="signup-sent-message" role="status" hidden>
+        <strong>Signup request submitted.</strong>
+        Thank you for your interest. We will review the information and follow up with next steps if the class is a good fit.
+      </div>
+
+      <div class="success-message error" id="signup-error-message" role="alert" hidden>
+        <strong>Signup request not sent.</strong>
+        Please try again or email vihaan.jambudi@gmail.com directly.
+      </div>
+
       <div class="split">
         <div class="form-row">
           <label for="parent-name">Parent Name</label>
-          <input id="parent-name" name="parent-name" type="text" placeholder="Parent name" required />
+          <input id="parent-name" name="parentName" type="text" placeholder="Parent name" required />
         </div>
 
         <div class="form-row">
           <label for="child-name">Child Name</label>
-          <input id="child-name" name="child-name" type="text" placeholder="Child name" required />
+          <input id="child-name" name="childName" type="text" placeholder="Child name" required />
         </div>
       </div>
 
       <div class="split">
         <div class="form-row">
           <label for="age-grade">Child Age / Grade</label>
-          <input id="age-grade" name="age-grade" type="text" placeholder="Example: 10 years old / Grade 5" required />
+          <input id="age-grade" name="ageGrade" type="text" placeholder="Example: 10 years old / Grade 5" required />
         </div>
 
         <div class="form-row">
@@ -205,5 +204,41 @@
 <footer>
   <p>☀️ One gift, one child, one ray at a time.</p>
 </footer>
+<script>
+  const signupForm = document.querySelector('#ai-signup-form');
+  const signupSentMessage = document.querySelector('#signup-sent-message');
+  const signupErrorMessage = document.querySelector('#signup-error-message');
+  const signupSubmitButton = signupForm?.querySelector('button[type="submit"]');
+
+  signupForm?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    signupSentMessage?.setAttribute('hidden', '');
+    signupErrorMessage?.setAttribute('hidden', '');
+
+    if (signupSubmitButton) {
+      signupSubmitButton.setAttribute('disabled', '');
+      signupSubmitButton.textContent = 'Sending...';
+    }
+
+    try {
+      await fetch(signupForm.action, {
+        method: 'POST',
+        body: new FormData(signupForm),
+        mode: 'no-cors',
+      });
+
+      signupForm.reset();
+      signupSentMessage?.removeAttribute('hidden');
+    } catch {
+      signupErrorMessage?.removeAttribute('hidden');
+    } finally {
+      if (signupSubmitButton) {
+        signupSubmitButton.removeAttribute('disabled');
+        signupSubmitButton.textContent = 'Submit Sign Up';
+      }
+    }
+  });
+</script>
 </body>
 </html>
