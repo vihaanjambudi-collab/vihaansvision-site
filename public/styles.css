@@ -311,11 +311,17 @@ section {
 }
 
 .tax-box {
-  margin-top: 22px;
+  margin-top: 34px;
 }
 
 .tax-box p:last-child {
   margin-bottom: 0;
+}
+
+.final-donation-action {
+  display: flex;
+  justify-content: center;
+  margin-top: 34px;
 }
 
 .numbered-list {
