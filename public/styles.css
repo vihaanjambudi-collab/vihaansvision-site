@@ -243,6 +243,14 @@ section {
     radial-gradient(circle at 92% 22%, rgba(122, 199, 165, 0.20), transparent 25%);
 }
 
+.donate-hero {
+  padding-bottom: 8px;
+}
+
+.donation-support-section {
+  padding-top: 16px;
+}
+
 .section-title {
   text-align: center;
   color: var(--navy);
