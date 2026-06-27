@@ -144,11 +144,14 @@
     <p class="section-intro">
       Share your interest in an upcoming AI class and we will follow up with session details.
     </p>
+    <p class="signup-payment-note">
+      Each class is $20. Registration is confirmed only after your signup is reviewed and payment is completed.
+    </p>
 
     <form class="form" id="ai-signup-form" action="https://script.google.com/macros/s/AKfycbwSZZQly4XEOcELde4Rdg9BBdkfyLLpVNVd-_uAwXlQNhtMVAkWFmMK2ezd0LMH9aU1HQ/exec" method="POST">
       <div class="success-message" id="signup-sent-message" role="status" hidden>
         <strong>Signup request submitted.</strong>
-        Thank you for your interest. We will review the information and follow up with next steps if the class is a good fit.
+        Thank you for your interest. We will review the information and follow up with next steps. Registration is confirmed only after the $20 class payment is completed.
       </div>
 
       <div class="success-message error" id="signup-error-message" role="alert" hidden>
@@ -260,12 +263,18 @@
     });
   };
 
-  signupForm?.addEventListener('change', () => {
+  signupForm?.addEventListener('change', (event) => {
     const formData = new FormData(signupForm);
     const signupType = formData.get('signupType');
     const isRegistering = signupType === 'Register';
+    const changedField = event.target instanceof HTMLInputElement || event.target instanceof HTMLSelectElement
+      ? event.target.name
+      : '';
 
-    updateSessionOptions();
+    if (changedField === 'attendanceMode' || (changedField === 'signupType' && sessionSelect?.options.length === 1)) {
+      updateSessionOptions();
+    }
+
     sessionRow?.toggleAttribute('hidden', !isRegistering);
 
     if (sessionSelect) {
