@@ -431,6 +431,12 @@ section {
   text-align: center;
 }
 
+.signup-donation-action {
+  display: flex;
+  justify-content: center;
+  margin: -6px auto 24px;
+}
+
 .success-message {
   margin-bottom: 22px;
   padding: 16px 18px;
