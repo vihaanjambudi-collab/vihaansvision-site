@@ -182,12 +182,36 @@
         </div>
       </div>
 
-      <div class="form-row">
+      <div class="split">
+        <fieldset class="form-row choice-group">
+          <legend>Class Format</legend>
+          <label>
+            <input type="radio" name="attendanceMode" value="In-person" required />
+            In-person
+          </label>
+          <label>
+            <input type="radio" name="attendanceMode" value="Online" required />
+            Online
+          </label>
+        </fieldset>
+
+        <fieldset class="form-row choice-group">
+          <legend>Signup Type</legend>
+          <label>
+            <input type="radio" name="signupType" value="Register" required />
+            Register
+          </label>
+          <label>
+            <input type="radio" name="signupType" value="Interested" required />
+            Just interested
+          </label>
+        </fieldset>
+      </div>
+
+      <div class="form-row" id="session-row" hidden>
         <label for="session">Preferred Session</label>
-        <select id="session" name="session" required>
+        <select id="session" name="session">
           <option value="">Choose a session</option>
-          <option>AI 101: AI & ML Basics - July 1st, 2026 02:00 PM to 04:00 PM</option>
-          <option>AI 102: Generative AI: Level Up - July 1st, 2026 02:00 PM to 04:00 PM</option>
         </select>
       </div>
 
@@ -209,6 +233,51 @@
   const signupSentMessage = document.querySelector('#signup-sent-message');
   const signupErrorMessage = document.querySelector('#signup-error-message');
   const signupSubmitButton = signupForm?.querySelector('button[type="submit"]');
+  const sessionRow = document.querySelector('#session-row');
+  const sessionSelect = document.querySelector('#session');
+  const classSessions = {
+    'In-person': [
+      'AI 101: AI & ML Basics - July 1st, 2026 02:00 PM to 04:00 PM',
+      'AI 102: Generative AI: Level Up - July 1st, 2026 02:00 PM to 04:00 PM',
+    ],
+    Online: [
+      'AI 101: AI & ML Basics - Online interest list',
+      'AI 102: Generative AI: Level Up - Online interest list',
+    ],
+  };
+
+  const updateSessionOptions = () => {
+    if (!sessionSelect) {
+      return;
+    }
+
+    const formData = new FormData(signupForm);
+    const attendanceMode = formData.get('attendanceMode');
+    const sessions = classSessions[String(attendanceMode)] || [];
+
+    sessionSelect.replaceChildren(new Option(attendanceMode ? 'Choose a session' : 'Choose class format first', ''));
+
+    sessions.forEach((session) => {
+      sessionSelect.add(new Option(session, session));
+    });
+  };
+
+  signupForm?.addEventListener('change', () => {
+    const formData = new FormData(signupForm);
+    const signupType = formData.get('signupType');
+    const isRegistering = signupType === 'Register';
+
+    updateSessionOptions();
+    sessionRow?.toggleAttribute('hidden', !isRegistering);
+
+    if (sessionSelect) {
+      sessionSelect.required = isRegistering;
+
+      if (!isRegistering) {
+        sessionSelect.value = '';
+      }
+    }
+  });
 
   signupForm?.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -222,13 +291,29 @@
     }
 
     try {
+      const formData = new FormData(signupForm);
+      const attendanceMode = formData.get('attendanceMode');
+      const signupType = formData.get('signupType');
+      const info = formData.get('info');
+
+      formData.set('info', [
+        `Class Format: ${attendanceMode}`,
+        `Signup Type: ${signupType}`,
+        '',
+        String(info || ''),
+      ].join('\n'));
+
       await fetch(signupForm.action, {
         method: 'POST',
-        body: new FormData(signupForm),
+        body: formData,
         mode: 'no-cors',
       });
 
       signupForm.reset();
+      sessionRow?.setAttribute('hidden', '');
+      if (sessionSelect) {
+        sessionSelect.required = false;
+      }
       signupSentMessage?.removeAttribute('hidden');
     } catch {
       signupErrorMessage?.removeAttribute('hidden');

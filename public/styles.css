@@ -459,6 +459,41 @@ section {
   margin-bottom: 8px;
 }
 
+.choice-group {
+  border: 0;
+  padding: 0;
+}
+
+.choice-group legend {
+  color: var(--navy);
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+
+.choice-group label {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  min-height: 50px;
+  margin-bottom: 10px;
+  border: 2px solid #d7edf7;
+  border-radius: 18px;
+  padding: 12px 16px;
+  background: #fbfdff;
+  cursor: pointer;
+  line-height: 1.2;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.choice-group input[type="radio"] {
+  flex: 0 0 auto;
+  width: auto;
+  margin: 0;
+  accent-color: var(--blue);
+}
+
 .form-row input,
 .form-row textarea,
 .form-row select {
