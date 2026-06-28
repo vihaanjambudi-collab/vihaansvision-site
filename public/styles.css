@@ -529,6 +529,17 @@ section {
   box-shadow: 0 0 0 4px rgba(248, 184, 78, 0.20);
 }
 
+.form-row select.select-muted-choice {
+  color: #738396;
+  border-color: #cfd8e3;
+  background: #f3f6f9;
+}
+
+.muted-session-option {
+  color: #738396;
+  background: #f3f6f9;
+}
+
 .split {
   display: grid;
   grid-template-columns: 1fr 1fr;

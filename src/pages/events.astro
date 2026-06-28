@@ -243,13 +243,41 @@
   const sessionSelect = document.querySelector('#session');
   const classSessions = {
     'In-person': [
-      'AI 101: AI & ML Basics - July 1st, 2026 02:00 PM to 04:00 PM',
-      'AI 102: Generative AI: Level Up - July 1st, 2026 02:00 PM to 04:00 PM',
+      {
+        label: 'AI 101: AI & ML Basics - July 11th, 2026 10:00 AM to 12:00 PM',
+      },
+      {
+        label: 'AI 102: Generative AI: Level Up - July 12th, 2026 02:00 PM to 04:00 PM',
+      },
     ],
     Online: [
-      'AI 101: AI & ML Basics - TBD',
-      'AI 102: Generative AI: Level Up - TBD',
+      {
+        label: 'AI 101: AI & ML Basics - TBD',
+        unavailable: true,
+        unavailableReason: 'registration not open yet',
+        unavailableStatus: 'Registration not open',
+      },
+      {
+        label: 'AI 102: Generative AI: Level Up - TBD',
+        unavailable: true,
+        unavailableReason: 'registration not open yet',
+        unavailableStatus: 'Registration not open',
+      },
     ],
+  };
+
+  const updateSelectedSessionState = () => {
+    if (!sessionSelect) {
+      return;
+    }
+
+    const selectedOption = sessionSelect.selectedOptions[0];
+    sessionSelect.classList.toggle('select-muted-choice', selectedOption?.dataset.unavailable === 'true');
+  };
+
+  const selectedSessionIsUnavailable = () => {
+    const selectedOption = sessionSelect?.selectedOptions[0];
+    return selectedOption?.dataset.unavailable === 'true';
   };
 
   const updateSessionOptions = () => {
@@ -264,8 +292,21 @@
     sessionSelect.replaceChildren(new Option(attendanceMode ? 'Choose a session' : 'Choose class format first', ''));
 
     sessions.forEach((session) => {
-      sessionSelect.add(new Option(session, session));
+      const optionLabel = session.unavailable
+        ? `${session.label} (${session.unavailableReason})`
+        : session.label;
+      const option = new Option(optionLabel, session.label);
+
+      if (session.unavailable) {
+        option.dataset.unavailable = 'true';
+        option.dataset.unavailableStatus = session.unavailableStatus || 'Unavailable';
+        option.classList.add('muted-session-option');
+      }
+
+      sessionSelect.add(option);
     });
+
+    updateSelectedSessionState();
   };
 
   signupForm?.addEventListener('change', (event) => {
@@ -280,6 +321,10 @@
       updateSessionOptions();
     }
 
+    if (changedField === 'session') {
+      updateSelectedSessionState();
+    }
+
     sessionRow?.toggleAttribute('hidden', !isRegistering);
 
     if (sessionSelect) {
@@ -287,6 +332,7 @@
 
       if (!isRegistering) {
         sessionSelect.value = '';
+        updateSelectedSessionState();
       }
     }
   });
@@ -307,10 +353,20 @@
       const attendanceMode = formData.get('attendanceMode');
       const signupType = formData.get('signupType');
       const info = formData.get('info');
+      const selectedOption = sessionSelect?.selectedOptions[0];
+      const isUnavailableSession = selectedSessionIsUnavailable();
+      const unavailableStatus = selectedOption?.dataset.unavailableStatus || 'Unavailable';
+      const effectiveSignupType = isUnavailableSession && signupType === 'Register'
+        ? 'Interested'
+        : signupType;
+
+      formData.set('signupType', String(effectiveSignupType || ''));
 
       formData.set('info', [
         `Class Format: ${attendanceMode}`,
-        `Signup Type: ${signupType}`,
+        `Signup Type: ${effectiveSignupType}`,
+        `Payment Required: ${isUnavailableSession ? 'No' : 'Yes'}`,
+        ...(isUnavailableSession ? [`Registration Status: Interest only - ${unavailableStatus}`] : []),
         '',
         String(info || ''),
       ].join('\n'));
