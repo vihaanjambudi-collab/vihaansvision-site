@@ -540,6 +540,12 @@ section {
   background: #f3f6f9;
 }
 
+.prerequisite-warning {
+  margin: 6px 0 0;
+  color: #9d3d2f;
+  font-weight: 800;
+}
+
 .split {
   display: grid;
   grid-template-columns: 1fr 1fr;

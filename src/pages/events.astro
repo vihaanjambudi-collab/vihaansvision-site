@@ -221,6 +221,21 @@
         </select>
       </div>
 
+      <fieldset class="form-row choice-group" id="ai-101-prerequisite-row" hidden>
+        <legend>AI 102 Prerequisite</legend>
+        <label>
+          <input type="radio" name="completedAi101" value="Yes" />
+          Yes, my child has taken AI 101
+        </label>
+        <label>
+          <input type="radio" name="completedAi101" value="No" />
+          No, my child has not taken AI 101
+        </label>
+        <p class="prerequisite-warning" id="ai-101-prerequisite-warning" hidden>
+          AI 101 is required before choosing AI 102. Please choose AI 101 first.
+        </p>
+      </fieldset>
+
       <div class="form-row">
         <label for="info">Info</label>
         <textarea id="info" name="info" rows="6" placeholder="Questions, schedule preference, or anything I should know"></textarea>
@@ -241,6 +256,9 @@
   const signupSubmitButton = signupForm?.querySelector('button[type="submit"]');
   const sessionRow = document.querySelector('#session-row');
   const sessionSelect = document.querySelector('#session');
+  const ai101PrerequisiteRow = document.querySelector('#ai-101-prerequisite-row');
+  const ai101PrerequisiteWarning = document.querySelector('#ai-101-prerequisite-warning');
+  const ai101PrerequisiteInputs = signupForm?.querySelectorAll('input[name="completedAi101"]');
   const classSessions = {
     'In-person': [
       {
@@ -280,6 +298,27 @@
     return selectedOption?.dataset.unavailable === 'true';
   };
 
+  const selectedSessionRequiresAi101 = () => {
+    const selectedOption = sessionSelect?.selectedOptions[0];
+    return selectedOption?.value.includes('AI 102') || false;
+  };
+
+  const updateAi101PrerequisiteState = () => {
+    const requiresAi101 = selectedSessionRequiresAi101();
+    const completedAi101 = new FormData(signupForm).get('completedAi101');
+
+    ai101PrerequisiteRow?.toggleAttribute('hidden', !requiresAi101);
+    ai101PrerequisiteWarning?.toggleAttribute('hidden', completedAi101 !== 'No');
+
+    ai101PrerequisiteInputs?.forEach((input) => {
+      input.required = requiresAi101;
+
+      if (!requiresAi101) {
+        input.checked = false;
+      }
+    });
+  };
+
   const updateSessionOptions = () => {
     if (!sessionSelect) {
       return;
@@ -307,6 +346,7 @@
     });
 
     updateSelectedSessionState();
+    updateAi101PrerequisiteState();
   };
 
   signupForm?.addEventListener('change', (event) => {
@@ -323,6 +363,11 @@
 
     if (changedField === 'session') {
       updateSelectedSessionState();
+      updateAi101PrerequisiteState();
+    }
+
+    if (changedField === 'completedAi101') {
+      updateAi101PrerequisiteState();
     }
 
     sessionRow?.toggleAttribute('hidden', !isRegistering);
@@ -333,6 +378,7 @@
       if (!isRegistering) {
         sessionSelect.value = '';
         updateSelectedSessionState();
+        updateAi101PrerequisiteState();
       }
     }
   });
@@ -342,6 +388,14 @@
 
     signupSentMessage?.setAttribute('hidden', '');
     signupErrorMessage?.setAttribute('hidden', '');
+
+    const initialFormData = new FormData(signupForm);
+
+    if (selectedSessionRequiresAi101() && initialFormData.get('completedAi101') === 'No') {
+      ai101PrerequisiteWarning?.removeAttribute('hidden');
+      ai101PrerequisiteRow?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
 
     if (signupSubmitButton) {
       signupSubmitButton.setAttribute('disabled', '');
@@ -353,6 +407,7 @@
       const attendanceMode = formData.get('attendanceMode');
       const signupType = formData.get('signupType');
       const info = formData.get('info');
+      const completedAi101 = formData.get('completedAi101');
       const selectedOption = sessionSelect?.selectedOptions[0];
       const isUnavailableSession = selectedSessionIsUnavailable();
       const unavailableStatus = selectedOption?.dataset.unavailableStatus || 'Unavailable';
@@ -365,6 +420,7 @@
       formData.set('info', [
         `Class Format: ${attendanceMode}`,
         `Signup Type: ${effectiveSignupType}`,
+        ...(selectedSessionRequiresAi101() ? [`Completed AI 101: ${completedAi101}`] : []),
         `Payment Required: ${isUnavailableSession ? 'No' : 'Yes'}`,
         ...(isUnavailableSession ? [`Registration Status: Interest only - ${unavailableStatus}`] : []),
         '',
