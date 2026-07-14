@@ -635,6 +635,12 @@ footer p {
   border: 1px solid rgba(23, 50, 77, 0.08);
 }
 
+.event-photo-full {
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+
 .class-note {
   margin-top: 18px;
   font-size: 0.96rem;
