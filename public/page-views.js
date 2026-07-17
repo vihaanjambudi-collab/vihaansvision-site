@@ -12,19 +12,11 @@ const trackPageView = () => {
     userAgent: navigator.userAgent,
     screenSize: `${window.screen.width}x${window.screen.height}`,
     viewportSize: `${window.innerWidth}x${window.innerHeight}`,
+    cacheBust: String(Date.now()),
   });
 
-  if (navigator.sendBeacon) {
-    navigator.sendBeacon(PAGE_VIEW_ENDPOINT, data);
-    return;
-  }
-
-  fetch(PAGE_VIEW_ENDPOINT, {
-    method: 'POST',
-    body: data,
-    mode: 'no-cors',
-    keepalive: true,
-  }).catch(() => {});
+  const tracker = new Image();
+  tracker.src = `${PAGE_VIEW_ENDPOINT}?${data.toString()}`;
 };
 
 trackPageView();
