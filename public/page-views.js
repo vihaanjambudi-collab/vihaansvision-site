@@ -15,8 +15,27 @@ const trackPageView = () => {
     cacheBust: String(Date.now()),
   });
 
-  const tracker = new Image();
-  tracker.src = `${PAGE_VIEW_ENDPOINT}?${data.toString()}`;
+  const url = `${PAGE_VIEW_ENDPOINT}?${data.toString()}`;
+
+  fetch(url, {
+    method: 'GET',
+    mode: 'no-cors',
+    cache: 'no-store',
+    keepalive: true,
+  }).catch(() => {
+    const tracker = document.createElement('img');
+    tracker.src = url;
+    tracker.alt = '';
+    tracker.width = 1;
+    tracker.height = 1;
+    tracker.style.position = 'absolute';
+    tracker.style.left = '-9999px';
+    tracker.style.width = '1px';
+    tracker.style.height = '1px';
+
+    document.body.appendChild(tracker);
+    setTimeout(() => tracker.remove(), 10000);
+  });
 };
 
 trackPageView();
