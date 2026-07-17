@@ -1,4 +1,4 @@
-const PAGE_VIEW_ENDPOINT = 'https://script.google.com/macros/s/AKfycbybOnOcQWjW_WIawI4jyelWP0Z50O_XR50tvxkh2kGvpNrW26uhjAJznKhKkilSMndTlw/exec';
+const PAGE_VIEW_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxLtX22awsgmcjVi0zM0XpojuXX1LWu0_kg3DT5BQQwQA6PYG-70CEoG20Fk1Mnd1Fn8Q/exec';
 
 const trackPageView = () => {
   if (!PAGE_VIEW_ENDPOINT) {
