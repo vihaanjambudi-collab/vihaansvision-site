@@ -292,6 +292,17 @@ section {
   margin-bottom: 12px;
 }
 
+.profile-photo {
+  width: 128px;
+  height: 128px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
+  margin-bottom: 16px;
+  box-shadow: 0 14px 34px rgba(23, 50, 77, 0.18);
+  border: 4px solid #fff2cf;
+}
+
 .card h2,
 .card h3 {
   color: var(--blue);
