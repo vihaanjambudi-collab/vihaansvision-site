@@ -143,6 +143,16 @@ h1 {
   color: #435466;
 }
 
+.lead,
+.section-intro,
+.card p,
+.story-box p,
+.timeline-item p,
+.team-member p:not(.team-role),
+.testimonial-letter p {
+  text-align: justify;
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;
@@ -243,6 +253,14 @@ section {
     radial-gradient(circle at 92% 22%, rgba(122, 199, 165, 0.20), transparent 25%);
 }
 
+.brand-logo {
+  display: block;
+  width: 340px;
+  max-width: 100%;
+  height: auto;
+  margin: 0 0 24px;
+}
+
 .donate-hero {
   padding-bottom: 8px;
 }
@@ -262,7 +280,7 @@ section {
 .section-intro {
   max-width: 860px;
   margin: 0 auto 42px;
-  text-align: center;
+  text-align: justify;
   color: var(--muted);
   font-size: 1.12rem;
 }
