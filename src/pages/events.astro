@@ -160,7 +160,11 @@
       </a>
     </div>
 
-    <form class="form" id="ai-signup-form" action="https://script.google.com/macros/s/AKfycbwSZZQly4XEOcELde4Rdg9BBdkfyLLpVNVd-_uAwXlQNhtMVAkWFmMK2ezd0LMH9aU1HQ/exec" method="POST">
+    <form class="form" id="ai-signup-form" action="https://formsubmit.co/ajax/info@vihaansvision.org" method="POST">
+      <input type="hidden" name="_subject" value="New Print Play Lab signup request" />
+      <input type="hidden" name="_template" value="table" />
+      <input type="hidden" name="_captcha" value="false" />
+
       <div class="success-message" id="signup-sent-message" role="status" hidden>
         <strong>Signup request submitted.</strong>
         Thank you for your interest. We will review the information and follow up with next steps. Registration is confirmed only after the payment is completed.
@@ -384,35 +388,17 @@
     }
 
     try {
-      const formData = new FormData(signupForm);
-      const attendanceMode = formData.get('attendanceMode');
-      const signupType = formData.get('signupType');
-      const info = formData.get('info');
-      const completedAi101 = formData.get('completedAi101');
-      const selectedOption = sessionSelect?.selectedOptions[0];
-      const isUnavailableSession = selectedSessionIsUnavailable();
-      const unavailableStatus = selectedOption?.dataset.unavailableStatus || 'Unavailable';
-      const effectiveSignupType = isUnavailableSession && signupType === 'Register'
-        ? 'Interested'
-        : signupType;
-
-      formData.set('signupType', String(effectiveSignupType || ''));
-
-      formData.set('info', [
-        ...(attendanceMode ? [`Session Format: ${attendanceMode}`] : []),
-        ...(effectiveSignupType ? [`Signup Type: ${effectiveSignupType}`] : []),
-        ...(selectedSessionRequiresAi101() ? [`Completed AI 101: ${completedAi101}`] : []),
-        `Payment Required: ${isUnavailableSession ? 'No' : 'Yes'}`,
-        ...(isUnavailableSession ? [`Registration Status: Interest only - ${unavailableStatus}`] : []),
-        '',
-        String(info || ''),
-      ].join('\n'));
-
-      await fetch(signupForm.action, {
+      const response = await fetch(signupForm.action, {
         method: 'POST',
-        body: formData,
-        mode: 'no-cors',
+        body: new FormData(signupForm),
+        headers: {
+          Accept: 'application/json',
+        },
       });
+
+      if (!response.ok) {
+        throw new Error('Signup submission failed');
+      }
 
       signupForm.reset();
       sessionRow?.setAttribute('hidden', '');
