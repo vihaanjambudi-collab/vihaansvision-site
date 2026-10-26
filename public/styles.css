@@ -849,3 +849,86 @@ footer p {
     letter-spacing: -1.5px;
   }
 }
+
+.shop-callout {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  max-width: 900px;
+  margin: 28px auto 36px;
+  padding: 28px 30px;
+  background: var(--white);
+  border: 3px solid var(--sun);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+}
+
+.shop-callout .new-tag {
+  position: absolute;
+  top: -14px;
+  left: 26px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: var(--rose);
+  color: var(--navy);
+  font-weight: 900;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.shop-callout-copy {
+  flex: 1;
+}
+
+.shop-callout-copy h3 {
+  margin: 0 0 6px;
+  color: var(--navy);
+}
+
+.shop-callout-copy p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.shop-callout .btn {
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .shop-callout {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* Flashy red NEW tag */
+.shop-callout .new-tag {
+  background: #e53935;
+  color: #fff;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 0 rgba(229, 57, 53, 0.6);
+  animation: new-tag-pulse 1.6s ease-out infinite;
+}
+
+.shop-callout {
+  border-color: #e53935;
+  box-shadow: 0 0 0 6px rgba(229, 57, 53, 0.12), var(--shadow);
+}
+
+@keyframes new-tag-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(229, 57, 53, 0.6); transform: scale(1); }
+  50% { transform: scale(1.08); }
+  70% { box-shadow: 0 0 0 12px rgba(229, 57, 53, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(229, 57, 53, 0); transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shop-callout .new-tag { animation: none; }
+}
+
+/* Pull Creations for a Cause closer to the Print Play Lab intro */
+#creations {
+  padding-top: 12px;
+}
